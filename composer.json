@@ -1,0 +1,24 @@
+{
+    "name": "muhametsafak/php-timebender",
+    "description": "PHP Time Bender Library",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "PHPTimeBender\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Muhammet ŞAFAK",
+            "email": "info@muhammetsafak.com.tr",
+            "role": "Developer",
+            "homepage": "https://www.muhammetsafak.com.tr"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php" : ">=7.4",
+        "muhametsafak/phplanguagessupport": "^1.0"
+    }
+}

@@ -7,7 +7,7 @@
  * @author     Muhammet ŞAFAK <info@muhammetsafak.com.tr>
  * @copyright  Copyright © 2022 PHPTimeBender
  * @license    https://github.com/muhametsafak/PHPTimeBender/blob/main/LICENSE  MIT
- * @version    0.1
+ * @version    0.2
  * @link       https://www.muhammetsafak.com.tr
  */
 
@@ -46,6 +46,7 @@ namespace PHPTimeBender;
  * @method static bool isJanuary()
  * @method static bool isFebruary()
  * @method static bool isMarch()
+ * @method static bool isApril()
  * @method static bool isMay()
  * @method static bool isJune()
  * @method static bool isJuly()
@@ -83,18 +84,26 @@ namespace PHPTimeBender;
  * @method static PHPTimeBender addYear(int $year)
  * @method static PHPTimeBender subYear(int $year)
  * @method static PHPTimeBender addInterval(string $string)
- * @method static \DatePeriod period(PHPTimeBender $start, PHPTimeBender $stop, string $step = '1 day')
- * @method static string[] periodFormat(PHPTimeBender $start, PHPTimeBender $stop, string $step = '1 day', string $format = 'd/m/Y')
+ * @method static PHPTimeBender timezone(null|string|\DateTimeZone $timezone)
+ * @method static PHPTimeBender timestamp(int $timestamp)
+ * @method static \DatePeriod between(PHPTimeBender $start, PHPTimeBender $stop, string $step = '1 day')
+ * @method static string[] betweenFormat(PHPTimeBender $start, PHPTimeBender $stop, string $step = '1 day', string $format = 'd/m/Y')
  * @method static string diffForHumans()
+ * @method static string diffForHumansDetail(string $detail = 'ymwdhis')
  */
 class TimeBender
 {
     protected static ?\PHPTimeBender\PHPTimeBender $instance = null;
 
+    protected static ?string $timezone = null;
+
     protected static function getInstance(): \PHPTimeBender\PHPTimeBender
     {
         if(self::$instance === null){
-            self::$instance = new \PHPTimeBender\PHPTimeBender();
+            if(self::$timezone === null){
+                self::$timezone = \date_default_timezone_get();
+            }
+            self::$instance = new PHPTimeBender('now', new \DateTimeZone(self::$timezone));
         }
         return self::$instance;
     }
@@ -107,6 +116,11 @@ class TimeBender
     public static function __callStatic($name, $arguments)
     {
         return self::getInstance()->{$name}(...$arguments);
+    }
+
+    public static function timezoneConf(?string $timezone = null): void
+    {
+        static::$timezone = $timezone;
     }
 
 }
